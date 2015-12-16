@@ -698,6 +698,7 @@ Org mode is for keeping notes, maintaining TODO lists, planning projects, and au
   (use-package ob-core)
   (use-package ox-md)
   (use-package ox-latex)
+  (use-package ox-beamer)
 
   (use-package org
     :ensure t

@@ -23,4 +23,5 @@ games
 *.rel
 /auto/
 .mc-lists.el
+smex-items
 
