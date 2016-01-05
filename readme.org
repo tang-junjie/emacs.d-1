@@ -1,5 +1,5 @@
 * Emacs Org Configuration
-2015-08-03
+2016-01-05
 * Description
 This file is parsed by [[./init.el][init.el]] which then evaluates all =emacs-lisp= code blocks during startup.
 
@@ -544,7 +544,7 @@ pip install importmagic
         (remove-hook 'elpy-modules 'elpy-module-yasnippet)
         (remove-hook 'elpy-mode-hook 'elpy-module-highlight-indentation)
         (add-hook 'elpy-mode-hook 'flycheck-mode))
-      (elpy-enable)
+      ;(elpy-enable)
       ;; jedi is great
       (setq elpy-rpc-backend "jedi")))
 #+END_SRC
@@ -778,8 +778,12 @@ Org mode is for keeping notes, maintaining TODO lists, planning projects, and au
       ;; Set up babel source-block execution
       (org-babel-do-load-languages
        'org-babel-load-languages
-       '((python . t)
+       '((emacs-lisp . t)
+         (python . t)
          (haskell . t)
+         (sh . t)
+         (scheme . t)
+         (ledger . t)                     ; for finances
          (C . t)))
 
       ;; Prevent Weird LaTeX class issue
@@ -936,7 +940,7 @@ More natural undo or redo. Undo with =C-/= and redo with =C-?=.
       (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)))
 
     :bind (("M-s" . avy-goto-word-1)
-           ("M-p" . ace-window)))
+           ("M-o" . ace-window)))
 #+END_SRC
 ** Move-Text
 Move lines or a region up or down.
