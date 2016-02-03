@@ -1,5 +1,5 @@
 * Emacs Org Configuration
-2016-01-05
+2016-02-02
 * Description
 This file is parsed by [[./init.el][init.el]] which then evaluates all =emacs-lisp= code blocks during startup.
 
@@ -509,7 +509,17 @@ pip install jedi
 pip install flake8
 #+END_SRC
 
+Jedi gives us intelligent auto-completion for Python in Emacs.
+
+1. =M-x package-install RET jedi RET=
+2. =M-x jedi:install-server RET=
+
 #+BEGIN_SRC emacs-lisp
+  ;; Standard Jedi.el setting
+  (add-hook 'python-mode-hook 'jedi:setup)
+  (setq jedi:complete-on-dot t)
+
+  ;; Use Company for auto-completion interface.
   (defun my/python-mode-hook ()
     (add-to-list 'company-backends 'company-jedi))
 
@@ -532,7 +542,7 @@ pip install flake8
 pip install importmagic
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp-no-tangle
+#+BEGIN_SRC -no-tangle-emacs-lisp
   (use-package elpy
     :ensure t
     :defer 2
@@ -544,10 +554,11 @@ pip install importmagic
         (remove-hook 'elpy-modules 'elpy-module-yasnippet)
         (remove-hook 'elpy-mode-hook 'elpy-module-highlight-indentation)
         (add-hook 'elpy-mode-hook 'flycheck-mode))
-      ;(elpy-enable)
+      (elpy-enable)
       ;; jedi is great
       (setq elpy-rpc-backend "jedi")))
 #+END_SRC
+
 ** Web Mode
 [[http://web-mode.org/][web-mode]] is by far the best major mode I have found for editing HTML.
 
@@ -886,6 +897,15 @@ Use tabs only in a makefile.
 (add-hook 'makefile-mode-hook 'my-tabs-makefile-hook)
 #+END_SRC
 
+** Ledger
+[[http://ledger-cli.org/][Ledger]] is a powerful, double-entry accounting system that is accessed
+from the UNIX command-line.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ledger-mode
+    :init
+    (add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode)))
+#+END_SRC
 * Minor Modes
 ** Smex
 [[https://github.com/nonsequitur/smex][Smex]] brings ido searching to =M-x=.

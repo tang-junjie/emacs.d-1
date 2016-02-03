@@ -24,4 +24,4 @@ games
 /auto/
 .mc-lists.el
 smex-items
-
+ac-comphist.dat
