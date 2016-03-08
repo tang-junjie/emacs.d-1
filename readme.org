@@ -1,5 +1,5 @@
 * Emacs Org Configuration
-2016-02-02
+2016-03-08
 * Description
 This file is parsed by [[./init.el][init.el]] which then evaluates all =emacs-lisp= code blocks during startup.
 
@@ -202,9 +202,11 @@ Better Emacs Default Settings. Heavily influenced from [[https://github.com/magn
   ;; Auto refresh buffers when edits occur outside emacs
   (global-auto-revert-mode 1)
 
-  ;; Also auto refresh dired, but be quiet about it
+  ;; Also auto refresh Dired, but be quiet about it
   (setq global-auto-revert-non-file-buffers t)
   (setq auto-revert-verbose nil)
+  ;; Quickly copy/move file in Dired
+  (setq dired-dwim-target t)
 
   ;; Show keystrokes in progress
   (setq echo-keystrokes 0.1)
@@ -647,8 +649,13 @@ Install [[http://ghcformacosx.github.io/][Haskell for Mac OS X]]
 #+END_SRC
 ** Nim
 #+BEGIN_SRC emacs-lisp
-  (use-package nim-mode)
-    :ensure t
+  (use-package nim-mode
+    :ensure t)
+#+END_SRC
+** Rust
+#+BEGIN_SRC emacs-lisp
+  (use-package rust-mode
+    :ensure t)
 #+END_SRC
 ** Scheme / Geiser
 *** Dr. Racket:
@@ -780,8 +787,8 @@ Org mode is for keeping notes, maintaining TODO lists, planning projects, and au
           (progn
             (setq pdf-processp t)
             (setq org-latex-pdf-process
-                  '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-            (message "org-latex-pdf-process: pdflatex"))))
+                  '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+            (message "org-latex-pdf-process: xelatex"))))
 
       ;; Call toggle-org-latex-pdf-process
       (toggle-org-latex-pdf-process)
@@ -872,11 +879,44 @@ With a prefix argument, all images are shown)
 Type =clear= to clear the buffer like in other terminal emulators.
 
 #+BEGIN_SRC emacs-lisp
-(defun eshell/clear ()
-  "04Dec2001 - sailor, to clear the eshell buffer."
-  (interactive)
-  (let ((inhibit-read-only t))
-    (erase-buffer)))
+  ;; Clear buffer with 'clear'
+  (defun eshell/clear ()
+    "04Dec2001 - sailor, to clear the eshell buffer."
+    (interactive)
+    (let ((inhibit-read-only t))
+      (erase-buffer)))
+
+  ;; Custom Eshell Prompt
+  (defun fish-path (path max-len)
+    "Return a potentially trimmed-down version of the directory PATH, replacing
+  parent directories with their initial characters to try to get the character
+  length of PATH (sans directory slashes) down to MAX-LEN."
+    (let* ((components (split-string (abbreviate-file-name path) "/"))
+           (len (+ (1- (length components))
+                   (reduce '+ components :key 'length)))
+           (str ""))
+      (while (and (> len max-len)
+                  (cdr components))
+        (setq str (concat str
+                          (cond ((= 0 (length (car components))) "/")
+                                ((= 1 (length (car components)))
+                                 (concat (car components) "/"))
+                                (t
+                                 (if (string= "."
+                                              (string (elt (car components) 0)))
+                                     (concat (substring (car components) 0 2)
+                                             "/")
+                                   (string (elt (car components) 0) ?/)))))
+              len (- len (1- (length (car components))))
+              components (cdr components)))
+      (concat str (reduce (lambda (a b) (concat a "/" b)) components))))
+
+  (defun fish-eshell-prompt-function ()
+        (concat (concat (fish-path (eshell/pwd) 40) "\n")
+                (if (= (user-uid) 0) " # " " $ ")))
+
+  (setq eshell-prompt-function
+        'fish-eshell-prompt-function)
 #+END_SRC
 ** ERC
 Emacs IRC Client

@@ -6,7 +6,8 @@
  '(elpy-modules
    (quote
     (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-highlight-indentation elpy-module-sane-defaults)))
- '(exec-path-from-shell-check-startup-files nil))
+ '(exec-path-from-shell-check-startup-files nil)
+ '(python-shell-interpreter "/usr/local/bin/python3"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
