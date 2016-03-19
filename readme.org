@@ -1,5 +1,5 @@
 * Emacs Org Configuration
-2016-03-08
+2016-03-10
 * Description
 This file is parsed by [[./init.el][init.el]] which then evaluates all =emacs-lisp= code blocks during startup.
 
@@ -387,32 +387,26 @@ Sometimes there are system keybindings that get in the way and will be used late
 
 * Appearance
 ** Theme
-Set custom theme path and load theme.
-
-#+BEGIN_QUOTE
-[[https://github.com/chriskempson/base16][Base16]] provides carefully chosen syntax highlighting and a default set
-of sixteen colors suitable for a wide range of applications. Base16 is
-both a color scheme and a template.
-#+END_QUOTE
+I use a modified [[https://github.com/chriskempson/base16][Base16]] theme which is similar to the [[https://github.com/robertmeta/nofrils][nofrils]] vim colorscheme. It only highlights comments, strings, and errors in programming modes.
 
 #+BEGIN_SRC emacs-lisp
   (setq custom-theme-directory (concat user-emacs-directory "themes/"))
 
   ;; last t is for NO-ENABLE
-  (load-theme 'base16-eighties-dark-custom t t)
-  (load-theme 'base16-solarized-light-custom t t)
+  (load-theme 'base3-dark t t)
+  (load-theme 'base3-light t t)
 
   ;; Use the default theme at the shell.
   (defun mb/pick-color-theme (frame)
     (select-frame frame)
     (if (window-system frame)
-        (enable-theme 'base16-eighties-dark-custom)
-      (disable-theme 'base16-eighties-dark-custom)))
+        (enable-theme 'base3-dark)
+      (disable-theme 'base3-dark)))
   (add-hook 'after-make-frame-functions 'mb/pick-color-theme)
 
   ;; For when started with emacs or emacs -nw rather than emacs --daemon
   (when window-system
-    (enable-theme 'base16-eighties-dark-custom))
+    (enable-theme 'base3-dark))
 
 
   (defun toggle-theme-dark-light ()
@@ -420,12 +414,12 @@ both a color scheme and a template.
     (interactive)
     (if (string= (face-background 'default) "#2d2d2d")
         (progn
-          (disable-theme 'base16-eighties-dark-custom)
-          (enable-theme 'base16-solarized-light-custom))
+          (disable-theme 'base3-dark)
+          (enable-theme 'base3-light))
       (when (string= (face-background 'default) "#fdf6e3")
         (progn
-          (disable-theme 'base16-solarized-light-custom)
-          (enable-theme 'base16-eighties-dark-custom)))))
+          (disable-theme 'base3-light)
+          (enable-theme 'base3-dark)))))
 #+END_SRC
 
 ** Pretty Mode
@@ -502,6 +496,18 @@ Don't defer screen updates when performing operations
 #+END_SRC
 
 * Major Modes
+** C-Family
+#+BEGIN_SRC emacs-lisp
+  ;; Automatically newline-and-indent for opening curly braces
+  (add-hook 'c-mode-common-hook
+            (electric-pair-mode 1))
+  (add-hook 'css-mode-hook
+            (electric-pair-mode 1))
+
+  ;; Use One True Brace Style (K&R style indentation)
+  (setq c-default-style "k&r"
+        c-basic-offset 4)
+#+END_SRC
 ** Python
 A couple helpful =python= packages to give us 
 autocompletion and error checking.
@@ -560,7 +566,6 @@ pip install importmagic
       ;; jedi is great
       (setq elpy-rpc-backend "jedi")))
 #+END_SRC
-
 ** Web Mode
 [[http://web-mode.org/][web-mode]] is by far the best major mode I have found for editing HTML.
 
@@ -630,7 +635,6 @@ pip install importmagic
         "Update the font-face after an emmet expantion."
         (font-lock-fontify-buffer))))
 #+END_SRC
-
 ** Haskell
 *** Mac OS X
 Install [[http://ghcformacosx.github.io/][Haskell for Mac OS X]]
@@ -1282,11 +1286,11 @@ The easiest way to add or remove =abbrev= expansions is to
 ** Rainbow Mode
 =rainbow-mode= displays hexadecimal colors with the color they represent as their background.
 #+BEGIN_SRC emacs-lisp
-  (use-package rainbow
-    :ensure rainbow-mode
+  (use-package rainbow-mode
+    :ensure t
     :diminish ""
     :init
-    (add-hook 'prog-mode-hook 'rainbow-mode)
+    (add-hook 'web-mode-hook 'rainbow-mode)
     (add-hook 'css-mode-hook 'rainbow-mode))
 #+END_SRC
 
@@ -1890,8 +1894,14 @@ Unique configurations and path reassignments.
       :ensure t
       :config
       (exec-path-from-shell-initialize))
+    
     ;; Use right option for spacial characters.
     (setq mac-right-option-modifier 'none)
+    
+    ;; Remove date and battery status from modeline
+    (display-time-mode -1)
+    (display-battery-mode -1)
+    
     ;; Set paths to homebrew installed programs.
     (progn
       (setq geiser-racket-binary "/Applications/Racket v6.2/bin/racket")
