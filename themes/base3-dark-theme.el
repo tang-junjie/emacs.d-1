@@ -202,27 +202,14 @@
    `(font-latex-verbatim-face ((t (:foreground ,base09))))
    `(font-latex-warning-face ((t (:foreground ,base08))))
 
-   ;; dired+
-   `(diredp-compressed-file-suffix ((t (:foreground ,base0D))))
-   `(diredp-dir-heading ((t (:foreground nil :background nil :inherit heading))))
-   `(diredp-dir-priv ((t (:foreground ,base0C :background nil))))
-   `(diredp-exec-priv ((t (:foreground ,base0D :background nil))))
-   `(diredp-executable-tag ((t (:foreground ,base08 :background nil))))
-   `(diredp-file-name ((t (:foreground ,base0A))))
-   `(diredp-file-suffix ((t (:foreground ,base0B))))
-   `(diredp-flag-mark-line ((t (:background nil :inherit highlight))))
-   `(diredp-ignored-file-name ((t (:foreground ,base04))))
-   `(diredp-link-priv ((t (:background nil :foreground ,base0E))))
-   `(diredp-mode-line-flagged ((t (:foreground ,base08))))
-   `(diredp-mode-line-marked ((t (:foreground ,base0B))))
-   `(diredp-no-priv ((t (:background nil))))
-   `(diredp-number ((t (:foreground ,base0A))))
-   `(diredp-other-priv ((t (:background nil :foreground ,base0E))))
-   `(diredp-rare-priv ((t (:foreground ,base08 :background nil))))
-   `(diredp-read-priv ((t (:foreground ,base0B :background nil))))
-   `(diredp-symlink ((t (:foreground ,base0E))))
-   `(diredp-write-priv ((t (:foreground ,base0A :background nil))))
-
+   ;; dired
+   `(dired-directory ((t (:foreground ,base0D))))
+   `(dired-header ((t (:foreground ,base0A))))
+   `(dired-mark ((t (:foreground ,base09))))
+   `(dired-perm-write ((t (:foreground ,base03))))
+   `(dired-symlink ((t (:foreground ,base0E))))
+   `(dired-warning ((t (:foreground ,base08))))
+   
    ;; term and ansi-term
    `(term-color-black ((t (:foreground ,base02 :background ,base00))))
    `(term-color-white ((t (:foreground ,base05 :background ,base07))))
