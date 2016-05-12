@@ -1,5 +1,5 @@
 * Emacs Org Configuration
-2016-03-10
+2016-04-05
 * Description
 This file is parsed by [[./init.el][init.el]] which then evaluates all =emacs-lisp= code blocks during startup.
 
@@ -507,6 +507,9 @@ Don't defer screen updates when performing operations
   ;; Use One True Brace Style (K&R style indentation)
   (setq c-default-style "k&r"
         c-basic-offset 4)
+
+  ;; Use C-Mode for CUDA
+  (add-to-list 'auto-mode-alist '("\\.cu\\'" . c-mode))
 #+END_SRC
 ** Python
 A couple helpful =python= packages to give us 
@@ -950,6 +953,13 @@ from the UNIX command-line.
     :init
     (add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode)))
 #+END_SRC
+
+** Write Room
+A distraction free writing environment.
+#+BEGIN_SRC emacs-lisp
+  (use-package writeroom-mode
+    :ensure t)
+#+END_SRC
 * Minor Modes
 ** Smex
 [[https://github.com/nonsequitur/smex][Smex]] brings ido searching to =M-x=.
@@ -1347,6 +1357,12 @@ However, I do not want to highlight duplicate words.
  '(flyspell-duplicate ((t nil))))
 #+END_SRC
 
+** Writegood
+A minor mode to help help with your writing.
+#+BEGIN_SRC emacs-lisp
+  (use-package writegood-mode
+    :ensure t)
+#+END_SRC
 ** Flycheck
 [[https://github.com/flycheck/flycheck][Flycheck]] is a great modern syntax checker.
 #+BEGIN_SRC emacs-lisp
@@ -1894,19 +1910,43 @@ Unique configurations and path reassignments.
       :ensure t
       :config
       (exec-path-from-shell-initialize))
-    
+
     ;; Use right option for spacial characters.
     (setq mac-right-option-modifier 'none)
-    
+
     ;; Remove date and battery status from modeline
     (display-time-mode -1)
     (display-battery-mode -1)
-    
+
     ;; Set paths to homebrew installed programs.
     (progn
       (setq geiser-racket-binary "/Applications/Racket v6.2/bin/racket")
       (setq geiser-guile-binary "/usr/local/bin/guile")
-      (setq-default ispell-program-name "/usr/local/bin/aspell")))
+      (setq-default ispell-program-name "/usr/local/bin/aspell"))
+    
+    ;; Evaluate Code Blocks on Remote Machines
+    ;; http://howardism.org/Technical/Emacs/literate-devops.html#fn.2
+    (defun org-babel-temp-file (prefix &optional suffix)
+      "Create a temporary file in the `org-babel-temporary-directory'.
+  Passes PREFIX and SUFFIX directly to `make-temp-file' with the
+  value of `temporary-file-directory' temporarily set to the value
+  of `org-babel-temporary-directory'."
+      (if (file-remote-p default-directory)
+          (let ((prefix
+                 ;; We cannot use `temporary-file-directory' as local part
+                 ;; on the remote host, because it might be another OS
+                 ;; there.  So we assume "/tmp", which ought to exist on
+                 ;; relevant architectures.
+                 (concat (file-remote-p default-directory)
+                         ;; REPLACE temporary-file-directory with /tmp:
+                         (expand-file-name prefix "/tmp/"))))
+            (make-temp-file prefix nil suffix))
+        (let ((temporary-file-directory
+               (or (and (boundp 'org-babel-temporary-directory)
+                        (file-exists-p org-babel-temporary-directory)
+                        org-babel-temporary-directory)
+                   temporary-file-directory)))
+          (make-temp-file prefix nil suffix)))))
 #+END_SRC
 
 ** Games

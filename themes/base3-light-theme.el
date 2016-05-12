@@ -214,6 +214,15 @@
    `(dired-perm-write ((t (:foreground ,base03))))
    `(dired-symlink ((t (:foreground ,base0E))))
    `(dired-warning ((t (:foreground ,base08))))
+
+   ;; ibuffer  
+   `(ibuffer-dired-buffer-face ((t (:foreground ,base0D))))
+   `(ibuffer-help-buffer-face ((t (:inherit font-lock-comment-face))))
+   `(ibuffer-hidden-buffer-face ((t (:inherit font-lock-warning-face))))
+   `(ibuffer-occur-match-face ((t (:inherit font-lock-warning-face))))
+   `(ibuffer-read-only-buffer-face ((t (:foreground ,base0A))))
+   `(ibuffer-special-buffer-face ((t (:foreground ,base0E))))
+   `(ibuffer-title-face ((t (:foreground ,base0A))))
    
    ;; term and ansi-term
    `(term-color-black ((t (:foreground ,base02 :background ,base00))))
@@ -291,6 +300,16 @@
    `(org-upcoming-deadline ((t (:foreground ,base09))))
    `(org-warning ((t (:weight bold :foreground ,base08))))
 
+   ;; Outline / Headers
+   `(outline-1 ((t (:foreground ,base0D))))
+   `(outline-2 ((t (:foreground ,base0C))))
+   `(outline-3 ((t (:foreground ,base0E))))
+   `(outline-4 ((t (:foreground ,base0B))))
+   `(outline-5 ((t (:foreground ,base0A))))
+   `(outline-6 ((t (:foreground ,base08))))
+   `(outline-7 ((t (:foreground ,base0F))))
+   `(outline-8 ((t (:foreground ,base04))))
+   
    `(hl-sexp-face ((t (:background ,base03))))
    `(highlight-80+ ((t (:background ,base03))))
 
