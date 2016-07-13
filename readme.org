@@ -1,5 +1,5 @@
 * Emacs Org Configuration
-2016-04-05
+2016-07-13
 * Description
 This file is parsed by [[./init.el][init.el]] which then evaluates all =emacs-lisp= code blocks during startup.
 
@@ -220,6 +220,13 @@ Better Emacs Default Settings. Heavily influenced from [[https://github.com/magn
   ;; Enable syntax highlighting for older Emacsen that have it off
   (global-font-lock-mode t)
 
+  ;; Show matching parens
+  (setq show-paren-delay 0)
+  (show-paren-mode 1)
+
+  ;; Auto-close brackets and double quotes
+  (electric-pair-mode 1)
+
   ;; Answering just 'y' or 'n' will do
   (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -229,8 +236,6 @@ Better Emacs Default Settings. Heavily influenced from [[https://github.com/magn
   (set-keyboard-coding-system 'utf-8) ; pretty
   (set-selection-coding-system 'utf-8) ; please
   (prefer-coding-system 'utf-8) ; with sugar on top
-
-  (show-paren-mode 1)
 
   ;; Remove text in active region if inserting text
   (delete-selection-mode 1)
@@ -275,7 +280,7 @@ Better Emacs Default Settings. Heavily influenced from [[https://github.com/magn
                :config
                (setq uniquify-buffer-name-style 'forward))
 
-  ;; Nic says eval-expression-print-level needs to be set to nil (turned off) so
+  ;; eval-expression-print-level needs to be set to nil (turned off) so
   ;; that you can always see what's happening.
   (setq eval-expression-print-level nil)
 
@@ -452,6 +457,7 @@ Display certain characters as Unicode symbols.
 
   ;; Hook 'em up.
   (add-hook 'emacs-lisp-mode-hook 'my-lisp-prettify-symbols-hook)
+  (add-hook 'web-mode-hook 'my-prettify-symbols-hook)
   (add-hook 'js-mode-hook 'my-js-prettify-symbols-hook)
   (add-hook 'prog-mode-hook 'my-prettify-symbols-hook)
 
@@ -499,10 +505,10 @@ Don't defer screen updates when performing operations
 ** C-Family
 #+BEGIN_SRC emacs-lisp
   ;; Automatically newline-and-indent for opening curly braces
-  (add-hook 'c-mode-common-hook
-            (electric-pair-mode 1))
-  (add-hook 'css-mode-hook
-            (electric-pair-mode 1))
+  ;; (add-hook 'c-mode-common-hook
+  ;;           (electric-pair-local-mode 1))
+  ;; (add-hook 'css-mode-hook
+  ;;           (electric-pair-local-mode 1))
 
   ;; Use One True Brace Style (K&R style indentation)
   (setq c-default-style "k&r"
@@ -575,7 +581,7 @@ pip install importmagic
 *** Tools For Web Development
 - [[https://github.com/tapio/live-server][live-server]]: a little =node.js= development server with live reload capability.
 - [[https://github.com/lepture/python-livereload][Python LiveReload]]: a server designed for web developers who know Python.
-*** HTML
+*** HTML / PHP
 #+BEGIN_SRC emacs-lisp
   (use-package web-mode
     :ensure t
@@ -583,7 +589,9 @@ pip install importmagic
     :bind (("C-c C-v" . browse-url-of-buffer)
            ("C-c w t" . web-mode-element-wrap))
     :init
-    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+    (progn
+      (add-to-list 'auto-mode-alist '("\\.html?" . web-mode))
+      (add-to-list 'auto-mode-alist '("\\.php$" . web-mode)))
     :config
     (progn
       ;; Set tab to 4 to play nice with plebeian editors
@@ -694,6 +702,8 @@ brew install guile
   (use-package geiser
     :ensure t
     :defer
+    :bind (:map scheme-mode-map
+                ("C-c C-c" . geiser-eval-last-sexp))
     :init
     (progn
       (setq geiser-racket-binary "/usr/bin/racket")
@@ -870,7 +880,7 @@ With a prefix argument, all images are shown)
 #+END_SRC
 
 ** Dired
-[[http://www.emacswiki.org/emacs/DiredMode][Dired]] is a powerful file manager, similar to the Finder on Mac OS X.
+[[http://www.emacswiki.org/emacs/DiredMode][Dired]] is a powerful file manager.
 
 #+BEGIN_SRC emacs-lisp
   (use-package dired-x ; Enable some nice dired features
@@ -879,7 +889,8 @@ With a prefix argument, all images are shown)
       ;; Omit hidden files by default (C-x M-o to show them)
       (setq-default dired-omit-files-p t)
       (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$")
-            dired-omit-verbose nil)))
+            dired-omit-verbose nil)
+      (add-hook 'dired-after-readin-hook 'hl-line-mode)))
 #+END_SRC
 
 ** Eshell
@@ -1029,21 +1040,21 @@ Move lines or a region up or down.
 ** Smartparens
 Show matching and unmatched delimiters and auto-close them as well.
 #+BEGIN_SRC emacs-lisp
-  (use-package smartparens
-    :ensure t
-    :diminish ""
-    :config
-    (progn
-      ;; Use the base configuration
-      (require 'smartparens-config nil t)
-      (smartparens-global-mode t)
-      (sp-use-smartparens-bindings)
+  ;; (use-package smartparens
+  ;;   :ensure t
+  ;;   :diminish ""
+  ;;   :config
+  ;;   (progn
+  ;;     ;; Use the base configuration
+  ;;     (require 'smartparens-config nil t)
+  ;;     (smartparens-global-mode t)
+  ;;     (sp-use-smartparens-bindings)
       
-      ;; Add smartparens-strict-mode to all sp--lisp-modes hooks. C-h v sp--lisp-modes
-      ;; to customize/view this list.
-      (mapc (lambda (mode)
-              (add-hook (intern (format "%s-hook" (symbol-name mode))) 'smartparens-strict-mode))
-            sp--lisp-modes)))
+  ;;     ;; Add smartparens-strict-mode to all sp--lisp-modes hooks. C-h v sp--lisp-modes
+  ;;     ;; to customize/view this list.
+  ;;     (mapc (lambda (mode)
+  ;;             (add-hook (intern (format "%s-hook" (symbol-name mode))) 'smartparens-strict-mode))
+  ;;           sp--lisp-modes)))
 #+END_SRC
 
 ** Smart Tab
@@ -1640,6 +1651,20 @@ a region of text to fit within 80 columns. Another good trick is =M-x auto-fill-
 (global-set-key [remap goto-line] 'goto-line-with-feedback)
 #+END_SRC
 
+*** Show matching paren when off screen
+#+BEGIN_SRC emacs-lisp
+  (defadvice show-paren-function
+      (after show-matching-paren-offscreen activate)
+    "If the matching paren is offscreen, show the matching line in the
+          echo area. Has no effect if the character before point is not of
+          the syntax class ')'."
+    (interactive)
+    (let* ((cb (char-before (point)))
+           (matching-text (and cb
+                               (char-equal (char-syntax cb) ?\) )
+                               (blink-matching-open))))
+      (when matching-text (message matching-text))))
+#+END_SRC
 *** Better backspace during isearch
 #+BEGIN_SRC emacs-lisp
   ;; An attempt at this Emacs SX question:
@@ -1667,7 +1692,6 @@ a region of text to fit within 80 columns. Another good trick is =M-x auto-fill-
 
 *** Kill Region / Line
 With these in place, you can kill or copy the line point is on with a single keystroke:
-
 - =C-w= kills the current line
 - =M-w= copies the current line
 
