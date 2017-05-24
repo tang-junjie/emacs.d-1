@@ -149,7 +149,9 @@ Some quick essentials.
 
   ;; No fascists.
   (setq initial-scratch-message nil)
-  (setq initial-major-mode 'text-mode)
+
+  ;; Productive default mode
+  (setq initial-major-mode 'org-mode)
 
   ;; No alarms.
   (setq ring-bell-function 'ignore)
@@ -259,6 +261,9 @@ Better Emacs Default Settings. Heavily influenced from [[https://github.com/magn
 
   ;; Remove alarm (bell) on scroll
   (setq ring-bell-function 'ignore)
+
+  ;; Set default tab width
+  (setq default-tab-width 4)
 
   ;; Never insert tabs
   (set-default 'indent-tabs-mode nil)
@@ -672,8 +677,35 @@ Install [[http://ghcformacosx.github.io/][Haskell for Mac OS X]]
   (use-package rust-mode
     :ensure t)
 #+END_SRC
+** Go
+#+BEGIN_SRC emacs-lisp
+  (use-package go-mode
+    :ensure t)
+#+END_SRC
+** LISP
+*** Roswell
+[[https://github.com/roswell/roswell][Roswell]] is a complete Common Lisp environment setup utility.
+
+#+BEGIN_SRC emacs-lisp
+;; basic roswell setup
+(setq inferior-lisp-program "ros -Q run")
+(setf slime-lisp-implementations
+      `((sbcl    ("sbcl" "--dynamic-space-size" "2000"))
+        (roswell ("ros" "-Q" "run"))))
+(setf slime-default-lisp 'roswell)
+#+END_SRC
+
+*** simple clisp
+1. Install a Common Lisp implementation such as =CLISP=.
+2. Install the =SLIME= package in Emacs.
+
+#+BEGIN_SRC emacs-lisp
+;; simplest SLIME configuration for clisp
+;; (setq inferior-lisp-program (executable-find "clisp"))
+#+END_SRC
+
 ** Scheme / Geiser
-*** Dr. Racket:
+*** Dr. Racket
 You can install from =homebrew= or from [[http://racket-lang.org/]] (recommended).
 
 **** racket-lang
@@ -691,13 +723,10 @@ brew update
 brew install plt-racket
 #+END_SRC
 
-*** Geiser:
-#+BEGIN_SRC sh
-brew update
-brew install guile
-#+END_SRC
-
-*** Emacs:
+*** Guile
+Install Guile: https://www.gnu.org/software/guile/
+*** Emacs and Geiser
+http://www.nongnu.org/geiser/
 #+BEGIN_SRC emacs-lisp
   (use-package geiser
     :ensure t
@@ -721,7 +750,6 @@ tlmgr install <package>
 #+END_SRC
 Where =<package>= is [minted, wrapfig, ulem, marvosym, wasysym, ifplatform,
                       collection-fontsrecommended, cancel, latexmk]
-
 ** Org
 Using =Emacs= without =org-mode= is illogical.
 
@@ -732,6 +760,7 @@ Org mode is for keeping notes, maintaining TODO lists, planning projects, and au
 #+BEGIN_SRC emacs-lisp
   (use-package ob-core)
   (use-package ox-md)
+  (use-package ox-man)
   (use-package ox-latex)
   (use-package ox-beamer)
 
@@ -751,11 +780,11 @@ Org mode is for keeping notes, maintaining TODO lists, planning projects, and au
 
       ;; Configure Mobile Org
       ;; Set to the location of your Org files on your local system
-      (setq org-directory "~/Dropbox/Development/Org")
+      ; (setq org-directory "~/Dropbox/Development/Org")
       ;; Set to <your Dropbox root directory>/MobileOrg.
-      (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
+      ; (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
       ;; Set to the name of the file where new notes will be stored
-      (setq org-mobile-inbox-for-pull "~/Dropbox/Development/Org/inbox.org")
+      ; (setq org-mobile-inbox-for-pull "~/Dropbox/Development/Org/inbox.org")
 
       ;; Custom TODO keywords
       (setq org-todo-keywords
@@ -767,7 +796,10 @@ Org mode is for keeping notes, maintaining TODO lists, planning projects, and au
 
       ;; Tell the latex export to use the minted package for source
       ;; code coloration.
-      (setq org-latex-listings 'minted)
+      ; (setq org-latex-listings 'minted)
+
+      ;; Add minted to the defaults packages to include when exporting.
+      ; (add-to-list 'org-latex-packages-alist '("" "minted"))
 
       ;; local variable for keeping track of pdf-process options
       (setq pdf-processp nil))
@@ -781,9 +813,6 @@ Org mode is for keeping notes, maintaining TODO lists, planning projects, and au
       (bind-key "<s-down>" 'org-metadown org-mode-map)
       (bind-key "<s-left>" 'org-promote-subtree org-mode-map)
       (bind-key "<s-right>" 'org-demote-subtree org-mode-map)
-
-      ;; Add minted to the defaults packages to include when exporting.
-      (add-to-list 'org-latex-packages-alist '("" "minted"))
 
       ;; Let the exporter use the -shell-escape option to let latex
       ;; execute external programs.
@@ -844,13 +873,23 @@ Org mode is for keeping notes, maintaining TODO lists, planning projects, and au
         (myorg-update-parent-cookie))))
 #+END_SRC
 
-*** Tips / Tricks
+**** Tips / Tricks
 Zero Width Space trick. Use =C-x 8 RET 200b= in between the equal sign to match an org-mode verbatim.
 For example: \='quotes'\= will not get highlighted, but \=​'quotes'​\= will.
 
 Use =M-x org-toggle-inline-images= to display linked images in the buffer.
 (without a prefix argument, only images without a label are displayed.
 With a prefix argument, all images are shown)
+** YAML
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :ensure t)
+#+END_SRC
+** Markdown
+#+BEGIN_SRC emacs-lisp
+ ; (use-package markdown-mode
+ ;   :ensure t)
+#+END_SRC
 
 ** Magit
 [[https://github.com/magit/magit][Magit]] is the ultimate =git= interface for Emacs.
@@ -1862,6 +1901,13 @@ Including indent-buffer, which should not be called automatically on save."
   (set-frame-height (selected-frame) 66))
 #+END_SRC
 
+*** Zoom Frame
+#+BEGIN_SRC emacs-lisp
+  ;; Zooms in and out the entire Frame (hence all buffers too)
+  ;; Very useful for presentations and demos.
+  (use-package zoom-frm
+    :ensure t)
+#+END_SRC
 *** Transparency
 #+BEGIN_SRC emacs-lisp
 (defun frame-transparency()
