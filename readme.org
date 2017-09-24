@@ -1,5 +1,4 @@
 * Emacs Org Configuration
-2016-07-13
 * Description
 This file is parsed by [[./init.el][init.el]] which then evaluates all =emacs-lisp= code blocks during startup.
 
@@ -111,7 +110,7 @@ emacs -q -l ~/my-init-file.el
 #+END_SRC
 ** Dependency Management with =use-package=
 
-My =emacs.d/= is almost entirely depend ant on [[https://github.com/jwiegley/use-package][use-package]].
+My =emacs.d/= is almost entirely dependant on [[https://github.com/jwiegley/use-package][use-package]].
 
 #+BEGIN_QUOTE
 The =use-package= macro allows you to isolate package configuration in your .emacs file in a way that is both performance-oriented and, well, tidy. I created it because I have over 80 packages that I use in Emacs, and things were getting difficult to manage. Yet with this utility my total load time is around 2 seconds, with no loss of functionality!
