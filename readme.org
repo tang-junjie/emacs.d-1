@@ -1187,8 +1187,7 @@ into dynamic / static templates.
     "Inserts a simple 'hello-world' program in C."
     "Name: "
     "#include<stdio.h>\n\n"
-    "int main (int argc, char *argv[])\n"
-    "{\n"
+    "int main (int argc, char *argv[]) {\n"
     _  >"printf(\"%s\", \"Hello world.\\n\");\n"
     >"return 0;\n"
     "}\n")
