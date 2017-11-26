@@ -70,7 +70,15 @@ pacman -S gvim-python3
 
 * Installing Emacs
 ** Mac OS X
+*** Homebrew Cask
+The new way of installing Emacs is to use Homebrew Cask
+#+BEGIN_SRC sh
+brew cask install emacs
+#+END_SRC
+
 *** 24.5 (Stable)
+You can still compile Emacs from source, however you will need to
+manually link the binaries and =Emacs.app=.
 #+BEGIN_SRC sh
 brew update
 brew install emacs --HEAD --with-cocoa --with-gnutls
