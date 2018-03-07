@@ -690,6 +690,17 @@ Install [[http://ghcformacosx.github.io/][Haskell for Mac OS X]]
     :ensure t)
 #+END_SRC
 ** LISP
+*** SLIME
+#+BEGIN_SRC emacs-lisp
+  (use-package slime
+    :ensure t
+    :bind (:map slime-mode-map
+                ("C-t C-e" . slime-eval-last-expression))
+    :defer)
+#+END_SRC
+
+#+RESULTS:
+
 *** Roswell
 [[https://github.com/roswell/roswell][Roswell]] is a complete Common Lisp environment setup utility.
 
@@ -767,7 +778,7 @@ Org mode is for keeping notes, maintaining TODO lists, planning projects, and au
 #+BEGIN_SRC emacs-lisp
   (use-package ob-core)
   (use-package ox-md)
-  (use-package ox-man)
+  ;(use-package ox-man)
   (use-package ox-latex)
   (use-package ox-beamer)
 
@@ -1897,6 +1908,17 @@ Including indent-buffer, which should not be called automatically on save."
   (delete-trailing-whitespace)
   (indent-buffer))
 #+END_SRC
+*** Ansi Escape Codes
+#+BEGIN_SRC emacs-lisp
+(defun my-ansi-color (&optional beg end)
+  "Interpret ANSI color esacape sequence by colorifying cotent.
+Operate on selected region on whole buffer."
+  (interactive
+   (if (use-region-p)
+       (list (region-beginning) (region-end))
+     (list (point-min) (point-max))))
+  (ansi-color-apply-on-region beg end))
+#+END_SRC
 ** Frame
 *** Re-Size Frame
 #+BEGIN_SRC emacs-lisp
@@ -1991,8 +2013,8 @@ Unique configurations and path reassignments.
     (setq mac-right-option-modifier 'none)
 
     ;; Remove date and battery status from modeline
-    (display-time-mode -1)
-    (display-battery-mode -1)
+    ;(display-time-mode -1)
+    ;(display-battery-mode -1)
 
     ;; Set paths to homebrew installed programs.
     (progn
