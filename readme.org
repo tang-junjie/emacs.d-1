@@ -687,6 +687,18 @@ Install [[http://ghcformacosx.github.io/][Haskell for Mac OS X]]
 ** Go
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
+    :ensure t
+    :config
+    (defun my-go-mode-hook ()
+      (add-hook 'before-save-hook 'gofmt-before-save)
+      (setq-default indent-tabs-mode nil)
+      (setq-default tab-width 4)
+      (setq-default indent-line-function 'insert-tab)
+    (add-hook 'go-mode-hook 'my-go-mode-hook)))
+#+END_SRC
+** ProtoBuf
+#+BEGIN_SRC emacs-lisp
+  (use-package protobuf-mode
     :ensure t)
 #+END_SRC
 ** LISP
