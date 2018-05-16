@@ -611,7 +611,13 @@ pip install importmagic
       (setq web-mode-css-indent-offset 4)
       (setq web-mode-code-indent-offset 4)))
 #+END_SRC
-
+*** HAML
+#+BEGIN_SRC emacs-lisp
+  (use-package haml-mode
+    :ensure t
+    :init
+    (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode)))
+#+END_SRC
 **** Helpful Default Bindings
 =C-c C-f= folds html tags.
 
@@ -876,7 +882,6 @@ Org mode is for keeping notes, maintaining TODO lists, planning projects, and au
          (python . t)
          (haskell . t)
          (sh . t)
-         (scheme . t)
          (ledger . t)                     ; for finances
          (C . t)))
 
@@ -1151,8 +1156,8 @@ Show matching and unmatched delimiters and auto-close them as well.
 ** Silver Searcher
 [[https://github.com/Wilfred/ag.el][ag.el]] is an Emacs front-end to [[https://github.com/ggreer/the_silver_searcher][ag]], "the silver searcher".
 #+BEGIN_SRC emacs-lisp
-  (use-package ag)
-    :ensure t
+  (use-package ag
+    :ensure t)
 #+END_SRC
 ** Snippets
 [[https://github.com/capitaomorte/yasnippet][Yasnippet]] is great, but Emacs already comes with great templating and
@@ -1941,13 +1946,6 @@ Operate on selected region on whole buffer."
   (set-frame-height (selected-frame) 66))
 #+END_SRC
 
-*** Zoom Frame
-#+BEGIN_SRC emacs-lisp
-  ;; Zooms in and out the entire Frame (hence all buffers too)
-  ;; Very useful for presentations and demos.
-  (use-package zoom-frm
-    :ensure t)
-#+END_SRC
 *** Transparency
 #+BEGIN_SRC emacs-lisp
 (defun frame-transparency()
