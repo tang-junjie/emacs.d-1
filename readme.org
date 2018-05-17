@@ -700,14 +700,15 @@ go get -u github.com/rogpeppe/godef
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
     :ensure t
-    :config
+    :init
     (defun my-go-mode-hook ()
       (setq gofmt-command "goimports")
       (add-hook 'before-save-hook 'gofmt-before-save)
       (setq-default indent-tabs-mode nil)
       (setq-default tab-width 4)
-      (setq-default indent-line-function 'insert-tab)
-      (add-hook 'go-mode-hook 'my-go-mode-hook)))
+      (setq-default indent-line-function 'insert-tab))
+    :config
+    (add-hook 'go-mode-hook 'my-go-mode-hook))
 
   (use-package go-eldoc
     :ensure t
