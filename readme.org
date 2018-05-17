@@ -691,12 +691,18 @@ Install [[http://ghcformacosx.github.io/][Haskell for Mac OS X]]
     :ensure t)
 #+END_SRC
 ** Go
+#+BEGIN_SRC text
+go get -u golang.org/x/tools/cmd/goimports
+go get -u github.com/mdempsky/gocode
+go get -u github.com/rogpeppe/godef
+#+END_SRC
+
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
     :ensure t
     :config
     (defun my-go-mode-hook ()
-      (setq gofmt-command "goimports") ; go get golang.org/x/tools/cmd/goimports
+      (setq gofmt-command "goimports")
       (add-hook 'before-save-hook 'gofmt-before-save)
       (setq-default indent-tabs-mode nil)
       (setq-default tab-width 4)
@@ -707,6 +713,11 @@ Install [[http://ghcformacosx.github.io/][Haskell for Mac OS X]]
     :ensure t
     :config
     (add-hook 'go-mode-hook 'go-eldoc-setup))
+
+  (use-package company-go
+    :ensure t
+    :config
+    (add-to-list 'company-backends 'company-go))
 #+END_SRC
 ** ProtoBuf
 #+BEGIN_SRC emacs-lisp
