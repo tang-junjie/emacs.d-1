@@ -696,11 +696,17 @@ Install [[http://ghcformacosx.github.io/][Haskell for Mac OS X]]
     :ensure t
     :config
     (defun my-go-mode-hook ()
+      (setq gofmt-command "goimports") ; go get golang.org/x/tools/cmd/goimports
       (add-hook 'before-save-hook 'gofmt-before-save)
       (setq-default indent-tabs-mode nil)
       (setq-default tab-width 4)
       (setq-default indent-line-function 'insert-tab)
-    (add-hook 'go-mode-hook 'my-go-mode-hook)))
+      (add-hook 'go-mode-hook 'my-go-mode-hook)))
+
+  (use-package go-eldoc
+    :ensure t
+    :config
+    (add-hook 'go-mode-hook 'go-eldoc-setup))
 #+END_SRC
 ** ProtoBuf
 #+BEGIN_SRC emacs-lisp
