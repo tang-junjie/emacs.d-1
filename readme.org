@@ -953,6 +953,11 @@ With a prefix argument, all images are shown)
     (bind-key "q" 'magit-quit-session magit-status-mode-map))
 #+END_SRC
 
+** Fish Shell
+#+BEGIN_SRC emacs-lisp
+  (use-package fish-mode
+    :ensure t)
+#+END_SRC
 ** Dired
 [[http://www.emacswiki.org/emacs/DiredMode][Dired]] is a powerful file manager.
 
