@@ -364,6 +364,11 @@ I don't like to quit Emacs on accident, and I find closing frames more useful.
 
 ** Improvements
 #+BEGIN_SRC emacs-lisp
+  ;; Undo!
+  (bind-keys* 
+   ("C-z" . undo)
+   ("M-z" . undo))
+
   ;; Home and End Keys:
   (bind-key "<home>" 'move-beginning-of-line)
   (bind-key "<end>" 'move-end-of-line)
@@ -398,7 +403,7 @@ Sometimes there are system keybindings that get in the way and will be used late
                 "s-c" "s-v" "s-x" "s-v" "s-q" "s-s" "s-w"
                 "s-a" "s-o" "s-n" "s-p" "s-k" "s-u" "s-m"
                 "s-f" "s-z" "s-g" "s-d" "s-," "s-:" "s-e"
-                "s-t" "C-z"))
+                "s-t" "C-z" "C-/"))
   (global-unset-key (kbd keys)))
 #+END_SRC
 
