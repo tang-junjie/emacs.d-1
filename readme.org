@@ -186,6 +186,9 @@ Some quick essentials.
   ;; Fix empty pasteboard error.
   (setq save-interprogram-paste-before-kill nil)
 
+  ;; Don't automatically copy selected text
+  (setq select-enable-primary nil)
+
   ;; Enable some commands.
   (put 'downcase-region 'disabled nil)
   (put 'upcase-region 'disabled nil)
@@ -299,7 +302,6 @@ Better Emacs Default Settings. Heavily influenced from [[https://github.com/magn
   ;; from 'better-defaults.el'
   ;; Allow clipboard from outside emacs
   (setq x-select-enable-clipboard t
-        x-select-enable-primary t
         save-interprogram-paste-before-kill t
         apropos-do-all t
         mouse-yank-at-point t)
