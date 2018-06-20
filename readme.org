@@ -450,14 +450,7 @@ I use a modified [[https://github.com/chriskempson/base16][Base16]] theme which 
 Display certain characters as Unicode symbols.
 #+BEGIN_SRC emacs-lisp
   ;; Base set of pretty symbols.
-  (defvar base-prettify-symbols-alist '(("<=" . ?≤)
-                                        (">=" . ?≥)
-                                        ("<-" . ?←)
-                                        ("->" . ?→)
-                                        ("<=" . ?⇐)
-                                        ("=>" . ?⇒)
-                                        ("lambda" . ?λ)))
-
+  (defvar base-prettify-symbols-alist '(("lambda" . ?λ)))
 
   (defun my-lisp-prettify-symbols-hook ()
     "Set pretty symbols for lisp modes."
@@ -472,13 +465,19 @@ Display certain characters as Unicode symbols.
     "Set pretty symbols for non-lisp programming modes."
     (setq prettify-symbols-alist
           (append '(("==" . ?≡)
-                    ("!=" . ?≠)) base-prettify-symbols-alist)))
+                    ("!=" . ?≠)
+                    ("<=" . ?≤)
+                    (">=" . ?≥)
+                    ("<-" . ?←)
+                    ("->" . ?→)
+                    ("<=" . ?⇐)
+                    ("=>" . ?⇒)) base-prettify-symbols-alist)))
 
   ;; Hook 'em up.
   (add-hook 'emacs-lisp-mode-hook 'my-lisp-prettify-symbols-hook)
   (add-hook 'web-mode-hook 'my-prettify-symbols-hook)
   (add-hook 'js-mode-hook 'my-js-prettify-symbols-hook)
-  (add-hook 'prog-mode-hook 'my-prettify-symbols-hook)
+  ;;(add-hook 'prog-mode-hook 'my-prettify-symbols-hook)
 
   (global-prettify-symbols-mode 1)
 #+END_SRC
