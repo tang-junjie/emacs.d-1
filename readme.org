@@ -1196,6 +1196,8 @@ Show matching and unmatched delimiters and auto-close them as well.
   (use-package dumb-jump
     :ensure t
     :diminish ""
+    :bind (("C-c C-j" . dumb-jump-go)
+           ("C-c C-b" . dumb-jump-back))
     :config (dumb-jump-mode))
 #+END_SRC
 
