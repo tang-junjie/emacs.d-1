@@ -1188,6 +1188,17 @@ Show matching and unmatched delimiters and auto-close them as well.
   (use-package ag
     :ensure t)
 #+END_SRC
+** Dumb-Jump
+[[https://github.com/jacktasia/dumb-jump][dumb-jump]] uses =ag= to try and jump to definitions.
+- =C-M-g= jump
+- =C-M-p= return
+#+BEGIN_SRC emacs-lisp
+  (use-package dumb-jump
+    :ensure t
+    :diminish ""
+    :config (dumb-jump-mode))
+#+END_SRC
+
 ** Snippets
 [[https://github.com/capitaomorte/yasnippet][Yasnippet]] is great, but Emacs already comes with great templating and
 expansion tools.

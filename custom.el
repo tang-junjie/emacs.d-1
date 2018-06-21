@@ -18,7 +18,7 @@
  '(exec-path-from-shell-check-startup-files nil)
  '(package-selected-packages
    (quote
-    (angular-mode company-go go-eldoc coffee-mode ag ace-window robe flymake-haml haml-mode protobuf-mode flycheck-rust rust-mode notmuch fish-mode slime landmark markdown-mode yaml-mode zoom-frm go-mode paredit racket-mode exec-path-from-shell expand-region multiple-cursors writegood-mode rainbow-mode smartparens move-text undo-tree smex writeroom-mode magit geiser nim-mode haskell-mode emmet-mode js2-mode web-mode company-jedi use-package)))
+    (dumb-jump angular-mode company-go go-eldoc coffee-mode ag ace-window robe flymake-haml haml-mode protobuf-mode flycheck-rust rust-mode notmuch fish-mode slime landmark markdown-mode yaml-mode zoom-frm go-mode paredit racket-mode exec-path-from-shell expand-region multiple-cursors writegood-mode rainbow-mode smartparens move-text undo-tree smex writeroom-mode magit geiser nim-mode haskell-mode emmet-mode js2-mode web-mode company-jedi use-package)))
  '(python-shell-exec-path (quote ("/usr/local/bin/python3")))
  '(python-shell-interpreter "/usr/local/bin/python3")
  '(safe-local-variable-values (quote ((Base . 10) (Syntax . Common-Lisp)))))
