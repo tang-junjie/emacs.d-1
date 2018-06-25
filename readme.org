@@ -1187,7 +1187,12 @@ Show matching and unmatched delimiters and auto-close them as well.
 #+BEGIN_SRC emacs-lisp
   (use-package ag
     :ensure t
-    :config (add-hook 'ag-mode-hook 'hl-line-mode))
+    :config
+    (progn
+      (setq ag-reuse-buffers t)
+      (setq ag-reuse-window t)
+      (add-hook 'ag-mode-hook 'hl-line-mode)))
+
 #+END_SRC
 ** Dumb-Jump
 [[https://github.com/jacktasia/dumb-jump][dumb-jump]] uses =ag= to try and jump to definitions.
