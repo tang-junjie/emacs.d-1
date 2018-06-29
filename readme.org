@@ -387,13 +387,7 @@ I don't like to quit Emacs on accident, and I find closing frames more useful.
   ;; Set Regexp Alignment
   (bind-key "C-t a r" 'align-regexp my-dvorak-keys-minor-mode-map)
 
-  ;; Joins Lines into one (from the bottom up)
-  (bind-key  "M-j" '(lambda () (interactive) (join-line -1)))
-
-  ;; Kill line from the left
-  (bind-key "<s-backspace>" '(lambda () (interactive) (kill-line 0)))
-
-  ;; Sometimes I'd like to set "global bindings" to override some minor modes
+  ;; Sometimes I like to set global bindings to override minor modes
   (bind-key* "C-." 'flyspell-auto-correct-word)
 #+END_SRC
 
