@@ -587,6 +587,12 @@ pip install importmagic
       ;; jedi is great
       (setq elpy-rpc-backend "jedi")))
 #+END_SRC
+** Ruby
+#+BEGIN_SRC emacs-lisp
+  (use-package ruby-mode
+    :ensure t
+    :config (setq ruby-align-to-stmt-keywords t))
+#+END_SRC
 ** Web Mode
 [[http://web-mode.org/][web-mode]] is by far the best major mode I have found for editing HTML.
 
