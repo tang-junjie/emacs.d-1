@@ -194,6 +194,13 @@ Some quick essentials.
   (put 'upcase-region 'disabled nil)
   (put 'narrow-to-region 'disabled nil)
   (put 'erase-buffer 'disabled nil)
+
+  ;; Add filepath to frame title
+  (setq-default frame-title-format
+                '(:eval (format "%s (%s)"
+                                (buffer-name)
+                                (when (buffer-file-name)
+                                  (abbreviate-file-name (buffer-file-name))))))
 #+END_SRC
 
 * Better Defaults
