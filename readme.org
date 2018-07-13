@@ -389,7 +389,8 @@ I don't like to quit Emacs on accident, and I find closing frames more useful.
    ("C-r" . isearch-backward-regexp)
    ("C-M-s" . isearch-forward)
    ("C-M-r" . isearch-backward))
-  (bind-key "C-t C-b" 'ibuffer my-dvorak-keys-minor-mode-map)
+  ;; (bind-key "C-t C-b" 'ibuffer my-dvorak-keys-minor-mode-map)
+  (bind-key "C-t C-b" 'ido-switch-buffer my-dvorak-keys-minor-mode-map)
 
   ;; Set Regexp Alignment
   (bind-key "C-t a r" 'align-regexp my-dvorak-keys-minor-mode-map)
