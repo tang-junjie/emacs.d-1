@@ -653,6 +653,13 @@ pip install importmagic
     :ensure t
     :config (setq coffee-tab-width 2))
 #+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package angular-mode
+    :ensure t
+    :config (setq js-indent-level 2))
+#+END_SRC
+
 *** CSS
 #+BEGIN_SRC emacs-lisp
   (use-package css-mode
