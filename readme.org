@@ -599,7 +599,9 @@ pip install importmagic
 #+BEGIN_SRC emacs-lisp
   (use-package ruby-mode
     :ensure t
-    :config (setq ruby-align-to-stmt-keywords nil))
+    :config (progn
+              (setq ruby-align-to-stmt-keywords nil)
+              (setq ruby-insert-encoding-magic-comment nil)))
 #+END_SRC
 ** Web Mode
 [[http://web-mode.org/][web-mode]] is by far the best major mode I have found for editing HTML.
